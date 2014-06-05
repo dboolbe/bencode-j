@@ -60,7 +60,7 @@ public class Bencode {
      * @return Wrapped up BencodeObject object.
      * @throws RuntimeException if input object is unsupported.
      */
-    private BencodeObject encode(Object inputObject) throws RuntimeException {
+    public BencodeObject encode(Object inputObject) throws RuntimeException {
         if(inputObject instanceof String) {
             return encodeString((String) inputObject);
         } else if(inputObject instanceof Integer) {
@@ -139,7 +139,7 @@ public class Bencode {
         return map;
     }
 
-    private BencodeObject decode(String inputString) throws RuntimeException {
+    public BencodeObject decode(String inputString) throws RuntimeException {
         return decode(inputString, 0, inputString.length() - 1);
     }
 
@@ -259,7 +259,7 @@ public class Bencode {
         return stringBuilder;
     }
 
-    private boolean validate(String inputString) {
+    public boolean validate(String inputString) {
         StringBuilder stringBuilder = new StringBuilder(inputString);
         while(stringBuilder != null && stringBuilder.length() != 0) {
             if(stringBuilder.charAt(0) == 'i')
