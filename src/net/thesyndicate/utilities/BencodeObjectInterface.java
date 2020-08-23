@@ -42,7 +42,7 @@ public interface BencodeObjectInterface {
      * Gets the value contained within the BencodeObject.
      * @return The de-encoded Integer object.
      */
-    int getAsInteger();
+    Integer getAsInteger();
 
     /**
      * Gets the value contained within the BencodeObject.

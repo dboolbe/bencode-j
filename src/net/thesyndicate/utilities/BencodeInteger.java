@@ -5,9 +5,9 @@ package net.thesyndicate.utilities;
  */
 public class BencodeInteger extends BencodeObject {
 
-    private int value;
+    private Integer value;
 
-    public BencodeInteger(int value) {
+    public BencodeInteger(Integer value) {
         this.value = value;
     }
 
@@ -22,7 +22,7 @@ public class BencodeInteger extends BencodeObject {
     }
 
     @Override
-    public int getAsInteger() {
+    public Integer getAsInteger() {
         return value;
     }
 }

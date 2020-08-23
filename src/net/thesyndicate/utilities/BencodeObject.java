@@ -34,7 +34,7 @@ public class BencodeObject implements BencodeObjectInterface {
     }
 
     @Override
-    public int getAsInteger() {
+    public Integer getAsInteger() {
         throw new ClassCastException("BencodeObject cannot be cast to String.");
     }
 
