@@ -294,61 +294,128 @@ public class Bencode {
 
         Bencode bencode = new Bencode();
 
-        String testString = "Hello, World!!";
-        System.out.println("String: '" + testString + "' = '" + bencode.encode(testString) + "'");
+        String testString0 = "Hello, World!!";
+        System.out.println("String: '" + testString0 + "' = '" + bencode.encode(testString0) + "'");
+
+        assert bencode.encode(testString0).getClass().equals(BencodeString.class) : "object String not encoded into object BencodeString";
+        assert bencode.encode(testString0).toString().equals("14:Hello, World!!") : "object String not encoded properly";
 
         String testString1 = "Supercalifragilisticexpialidocious!!";
         System.out.println("String: '" + testString1 + "' = '" + bencode.encode(testString1) + "'");
 
+        assert bencode.encode(testString1).getClass().equals(BencodeString.class) : "object String not encoded into object BencodeString";
+        assert bencode.encode(testString1).toString().equals("36:Supercalifragilisticexpialidocious!!") : "object String not encoded properly";
+
         String testString2 = "Quick fox";
         System.out.println("String: '" + testString2 + "' = '" + bencode.encode(testString2) + "'");
 
-        Integer testInteger = 2468;
-        System.out.println("Integer: '" + testInteger + "' = '" + bencode.encode(testInteger) + "'");
+        assert bencode.encode(testString2).getClass().equals(BencodeString.class) : "object String not encoded into object BencodeString";
+        assert bencode.encode(testString2).toString().equals("9:Quick fox") : "object String not encoded properly";
+
+        Integer testInteger0 = 2468;
+        System.out.println("Integer: '" + testInteger0 + "' = '" + bencode.encode(testInteger0) + "'");
+
+        assert bencode.encode(testInteger0).getClass().equals(BencodeInteger.class) : "object Integer not encoded into object BencodeInteger";
+        assert bencode.encode(testInteger0).toString().equals("i2468e") : "object Integer not encoded properly";
 
         Integer testInteger1 = 12111986;
         System.out.println("Integer: '" + testInteger1 + "' = '" + bencode.encode(testInteger1) + "'");
 
+        assert bencode.encode(testInteger1).getClass().equals(BencodeInteger.class) : "object Integer not encoded into object BencodeInteger";
+        assert bencode.encode(testInteger1).toString().equals("i12111986e") : "object Integer not encoded properly";
+
         Integer testInteger2 = 36524182;
         System.out.println("Integer: '" + testInteger2 + "' = '" + bencode.encode(testInteger2) + "'");
 
-        List testList = new ArrayList();
-        testList.add(testString);
-        testList.add(testInteger);
-        testList.add(testString1);
-        testList.add(testInteger1);
-        testList.add(testString2);
-        testList.add(testInteger2);
-        System.out.println("List: '" + testList + "' = '" + bencode.encode(testList) + "'");
+        assert bencode.encode(testInteger2).getClass().equals(BencodeInteger.class) : "object Integer not encoded into object BencodeInteger";
+        assert bencode.encode(testInteger2).toString().equals("i36524182e") : "object Integer not encoded properly";
 
-        Map testMap = new HashMap();
-        testMap.put(testString, testInteger);
-        testMap.put(testString1, testInteger1);
-        testMap.put(testString2, testInteger2);
-        System.out.println("Dictionary: '" + testMap + "' = '" + bencode.encode(testMap) + "'");
+        List testList0 = new ArrayList();
+        testList0.add(testString0);
+        testList0.add(testInteger0);
+        testList0.add(testString1);
+        testList0.add(testInteger1);
+        testList0.add(testString2);
+        testList0.add(testInteger2);
+        System.out.println("List: '" + testList0 + "' = '" + bencode.encode(testList0) + "'");
+
+        assert bencode.encode(testList0).getClass().equals(BencodeList.class) : "object List not encoded into object BencodeList";
+        assert bencode.encode(testList0).toString().equals("l14:Hello, World!!i2468e36:Supercalifragilisticexpialidocious!!i12111986e9:Quick foxi36524182ee") : "object List not encoded properly";
+
+        Map testMap0 = new HashMap();
+        testMap0.put(testString0, testInteger0);
+        testMap0.put(testString1, testInteger1);
+        testMap0.put(testString2, testInteger2);
+        System.out.println("Dictionary: '" + testMap0 + "' = '" + bencode.encode(testMap0) + "'");
+
+        assert bencode.encode(testMap0).getClass().equals(BencodeDictionary.class) : "object Map not encoded into object BencodeDictionary";
+        assert bencode.encode(testMap0).toString().equals("d14:Hello, World!!i2468e9:Quick foxi36524182e36:Supercalifragilisticexpialidocious!!i12111986ee") : "object Map not encoded properly";
 
         String decodeString = "i345e";
         System.out.println("Integer: '" + decodeString + "' = '" + bencode.decode(decodeString).getAsInteger() + "'");
 
+        assert bencode.decode(decodeString).getClass().equals(BencodeInteger.class) : 
+            "expected: " + BencodeInteger.class + " actual: " + bencode.decode(decodeString).getClass();
+        assert bencode.decode(decodeString).getAsInteger().equals(345) : 
+            "expected: " + 345 + " actual: " + bencode.decode(decodeString).getAsInteger();
+
         decodeString = "14:Hello, World!!";
         System.out.println("String: '" + decodeString + "' = '" + bencode.decode(decodeString).getAsString() + "'");
+
+        assert bencode.decode(decodeString).getClass().equals(BencodeString.class) : 
+            "expected: " + BencodeString.class + " actual: " + bencode.decode(decodeString).getClass();
+        assert bencode.decode(decodeString).getAsString().equals("Hello, World!!") : 
+            "expected: " + "Hello, World!!" + " actual: " + bencode.decode(decodeString).getAsString();
 
         decodeString = "lli345e15:Hello, World!!aei345e15:Hello, World!!ae";
         System.out.println("List: '" + decodeString + "' = '" + bencode.decode(decodeString).getAsList() + "' = " + bencode.decode(decodeString).getAsList().size());
 
+        assert bencode.decode(decodeString).getClass().equals(BencodeList.class) : 
+            "expected: " + BencodeList.class + " actual: " + bencode.decode(decodeString).getClass();
+        List<BencodeObject> listObj = bencode.decode(decodeString).getAsList();
+        assert listObj.get(0).getAsList().get(0).getAsInteger().equals(345) :
+            "expected: " + listObj.get(0).getAsList().get(0).getAsInteger() + " actual: " + 345;
+        assert listObj.get(0).getAsList().get(1).getAsString().equals("Hello, World!!a") :
+            "expected: " + listObj.get(0).getAsList().get(1).getAsString() + " actual: " + "Hello, World!!a";
+        assert listObj.get(1).getAsInteger().equals(345) :
+            "expected: " + listObj.get(1).getAsInteger() + " actual: " + 345;
+        assert listObj.get(2).getAsString().equals("Hello, World!!a") :
+            "expected: " + listObj.get(2).getAsString() + " actual: " + "Hello, World!!a";
+
         decodeString = "d15:Hello, World!!ai345e3:bob5:ricky6:sillielli345e15:Hello, World!!aei345e15:Hello, World!!aee";
         System.out.println("Dictionary: '" + decodeString + "' = '" + bencode.decode(decodeString).getAsMap());
+
+        assert bencode.decode(decodeString).getClass().equals(BencodeDictionary.class) : 
+            "expected: " + BencodeDictionary.class + " actual: " + bencode.decode(decodeString).getClass();
+        Map<BencodeString,BencodeObjectInterface> dictionaryObj = bencode.decode(decodeString).getAsMap();
+        for(BencodeString key : dictionaryObj.keySet()) {
+            System.out.println("key: " + key.getAsString() + " value: " + dictionaryObj.get(key));
+        }
+        assert dictionaryObj.get(bencode.encode("Hello, World!!a")).getAsInteger().equals(345) :
+            "expected: " + 345 + " actual: " + dictionaryObj.get(bencode.encode("Hello, World!!a")).getAsInteger();
+        assert dictionaryObj.get(bencode.encode("bob")).getAsString().equals("ricky") :
+            "expected: " + "ricky" + " actual: " + dictionaryObj.get(bencode.encode("bob")).getAsString();
+        assert dictionaryObj.get(bencode.encode("sillie")).getAsList().get(2).getAsString().equals("Hello, World!!a") :
+            "expected: " + "Hello, World!!a" + " actual: " + dictionaryObj.get(bencode.encode("sillie")).getAsList().get(2).getAsString();
 
         decodeString = "i12ee";
         System.out.println("Valid String?: '" + decodeString + "' = '" + bencode.validate(decodeString));
 
+        assert !bencode.validate(decodeString) : "expected: " + "false" + " actual: " + bencode.validate(decodeString);
+
         decodeString = "2:ee";
         System.out.println("Valid String?: '" + decodeString + "' = '" + bencode.validate(decodeString));
+
+        assert bencode.validate(decodeString) : "expected: " + "true" + " actual: " + bencode.validate(decodeString);
 
         decodeString = "li3e3:bobe";
         System.out.println("Valid String?: '" + decodeString + "' = '" + bencode.validate(decodeString));
 
+        assert bencode.validate(decodeString) : "expected: " + "true" + " actual: " + bencode.validate(decodeString);
+
         decodeString = "d1:b3:bob1:ei3e3:madli3eee";
         System.out.println("Valid String?: '" + decodeString + "' = '" + bencode.validate(decodeString));
+
+        assert bencode.validate(decodeString) : "expected: " + "true" + " actual: " + bencode.validate(decodeString);
     }
 }
