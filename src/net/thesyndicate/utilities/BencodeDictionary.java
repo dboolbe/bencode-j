@@ -37,7 +37,7 @@ public class BencodeDictionary extends BencodeObject {
     }
 
     @Override
-    public Map getAsMap() {
+    public Map<BencodeString,BencodeObjectInterface> getAsMap() {
         return value;
     }
 }

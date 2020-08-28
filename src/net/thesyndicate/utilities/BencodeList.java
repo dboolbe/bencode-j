@@ -35,7 +35,7 @@ public class BencodeList extends BencodeObject {
     }
 
     @Override
-    public List getAsList() {
+    public List<BencodeObject> getAsList() {
         return value;
     }
 }

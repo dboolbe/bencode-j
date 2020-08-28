@@ -54,11 +54,11 @@ public interface BencodeObjectInterface {
      * Gets the value contained within the BencodeObject.
      * @return The de-encoded List object.
      */
-    List getAsList();
+    List<BencodeObject> getAsList();
 
     /**
      * Gets the value contained within the BencodeObject.
      * @return The de-encoded Map object.
      */
-    Map getAsMap();
+    Map<BencodeString,BencodeObjectInterface> getAsMap();
 }

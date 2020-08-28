@@ -44,12 +44,12 @@ public class BencodeObject implements BencodeObjectInterface {
     }
 
     @Override
-    public List getAsList() {
+    public List<BencodeObject> getAsList() {
         throw new ClassCastException("BencodeObject cannot be cast to List.");
     }
 
     @Override
-    public Map getAsMap() {
+    public Map<BencodeString,BencodeObjectInterface> getAsMap() {
         throw new ClassCastException("BencodeObject cannot be cast to Map.");
     }
 
